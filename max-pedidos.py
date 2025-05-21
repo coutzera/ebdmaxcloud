@@ -340,10 +340,11 @@ window.lineChart.destroy();
 
 // Extrai os labels (horas) dos dados
 const labels = Object.keys(info.data.reduce((acc, p) => {
-const hora = new Date(p.dataInclusao).getHours();
-acc[hora] = true;
-return acc;
-}, {})).sort();
+    const hora = new Date(p.dataInclusao).getHours();
+    acc[hora] = true;
+    return acc;
+}, {})).map(Number).sort((a, b) => a - b);
+
 
 // Cria datasets para cada status
 const datasets = Object.keys(counts).map(status => ({
