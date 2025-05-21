@@ -43,7 +43,7 @@ def fetch_data(data_inicial, data_final):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            last_update = datetime.now(tz_sp).isoformat()
+            last_update = datetime.now(tz_sp).strftime('%D-%M-%Y %H:%M:%S')
     except Exception as e:
         print("Erro ao buscar dados:", e)
 
