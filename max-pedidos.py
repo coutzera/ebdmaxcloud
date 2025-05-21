@@ -5,8 +5,12 @@ from collections import defaultdict
 import os
 import requests
 from dotenv import load_dotenv
+import pytz
+
 
 load_dotenv()
+tz_sp = pytz.timezone("America/Sao_Paulo")
+
 
 app = Flask(__name__)
 data = []
@@ -17,7 +21,7 @@ def agrupar_por_faixa_horaria(pedidos):
     for pedido in pedidos:
         if 'dataInclusao' in pedido and 'status' in pedido:
             try:
-                timestamp = datetime.fromisoformat(pedido['dataInclusao'])
+                timestamp = datetime.fromisoformat(pedido['dataInclusao']).astimezone(tz_sp)
                 hora = timestamp.replace(minute=0, second=0, microsecond=0)
                 status = pedido['status'] or 'Sem status'
                 contagem[hora][status] += 1
@@ -39,7 +43,7 @@ def fetch_data(data_inicial, data_final):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
-            last_update = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            last_update = datetime.now(tz_sp).isoformat()
     except Exception as e:
         print("Erro ao buscar dados:", e)
 
