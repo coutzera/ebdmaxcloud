@@ -363,7 +363,8 @@ fill: true
 window.lineChart = new Chart(lineCtx, {
 type: 'line',
 data: {
-labels: labels.map(h => `${h}:00`),
+labels: labels.map(h => `${h.toString().padStart(2, '0')}:00`)
+,
 datasets: datasets
 },
 options: {
