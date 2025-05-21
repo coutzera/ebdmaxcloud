@@ -292,20 +292,9 @@ def dashboard():
                             labels: Object.keys(counts),
                             datasets: [{
                                 data: Object.values(counts),
-                                backgroundColor: [
-                                    'rgba(99, 102, 241, 0.8)',
-                                    'rgba(59, 130, 246, 0.8)',
-                                    'rgba(16, 185, 129, 0.8)',
-                                    'rgba(245, 158, 11, 0.8)',
-                                    'rgba(239, 68, 68, 0.8)'
-                                ],
-                                borderColor: [
-                                    'rgba(99, 102, 241, 1)',
-                                    'rgba(59, 130, 246, 1)',
-                                    'rgba(16, 185, 129, 1)',
-                                    'rgba(245, 158, 11, 1)',
-                                    'rgba(239, 68, 68, 1)'
-                                ],
+                                backgroundColor: Object.keys(counts).map(status => getStatusColor(status, 0.8)),
+                                borderColor: Object.keys(counts).map(status => getStatusColor(status, 1)),
+,
                                 borderWidth: 1
                             }]
                         },
