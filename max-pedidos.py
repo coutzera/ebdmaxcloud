@@ -84,6 +84,8 @@ def dashboard():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Dashboard interativo de pedidos com filtros, gráficos e status em tempo real.">
+<meta name="theme-color" content="#4F46E5">
 <title>Dashboard de Pedidos</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -270,7 +272,8 @@ const statusIcons = {
 let cardIndex = 1;
 for (const [status, count] of Object.entries(counts)) {
 const card = document.createElement('div');
-card.className = `bg-white rounded-xl shadow-sm p-6 flex items-center justify-between ${statusColors[status] || ''}`;
+card.className = `min-w-[180px] bg-white rounded-xl shadow-sm p-6 flex items-center justify-between ${statusColors[status] || ''}`;
+
 card.innerHTML = `
 <div>
 <p class="text-sm ${statusColors[status] ? 'text-white' : 'text-gray-500'}">${status}</p>
@@ -415,26 +418,28 @@ text: 'Número de pedidos'
 
 // Função auxiliar para obter cores baseadas no status
 function getStatusColor(status, opacity = 1) {
-const colors = {
-"Recebido pelo servidor": `rgba(99, 102, 241, ${opacity})`,
-"Pedido gravado na FV": `rgba(59, 130, 246, ${opacity})`,
-"Enviado para o ERP para o ERP": `rgba(16, 185, 129, ${opacity})`,
-"Processado pelo ERP": `rgba(245, 158, 11, ${opacity})`,
-"Bloqueado envio ERP": `rgba(239, 68, 68, ${opacity})`,
-"Bloqueado / cancelado": `rgba(220, 38, 38, ${opacity})`,
-};
-return colors[status] || `rgba(156, 163, 175, ${opacity})`;
+    const colors = {
+        "Recebido pelo servidor": `rgba(148, 163, 184, ${opacity})`, // Gray-400
+        "Pedido gravado na FV": `rgba(59, 130, 246, ${opacity})`,    // Blue-500
+        "Enviado para o ERP": `rgba(234, 179, 8, ${opacity})`,       // Yellow-500
+        "Processado pelo ERP": `rgba(16, 185, 129, ${opacity})`,     // Green-500
+        "Bloqueado envio ERP": `rgba(249, 115, 22, ${opacity})`,     // Orange-500
+        "Bloqueado / cancelado": `rgba(239, 68, 68, ${opacity})`,    // Red-500
+    };
+    return colors[status] || `rgba(107, 114, 128, ${opacity})`; // Gray-500 default
 }
 
 // Inicializa o dashboard quando a página carrega
-document.addEventListener('DOMContentLoaded', function() {
-updateDashboard();
-
-// Configura o botão de atualização
-document.getElementById('refresh-button').addEventListener('click', updateDashboard);
+document.addEventListener('DOMContentLoaded', () => {
+    updateDashboard();
+});
 
 // Atualiza automaticamente a cada 5 minutos
 setInterval(updateDashboard, 300000);
+});
+document.getElementById('refresh-button').addEventListener('click', (e) => {
+    e.preventDefault();
+    updateDashboard();
 });
 </script>
 </body>
