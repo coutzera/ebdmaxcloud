@@ -47,7 +47,7 @@ def fetch_data(data_inicial, data_final):
         "sidebar_toggle_state": "on"
     }
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, cookies=cookies)
         if response.status_code == 200:
             data = response.json()
             last_update = datetime.now(saopaulo_tz).strftime('%Y-%m-%d %H:%M:%S')
